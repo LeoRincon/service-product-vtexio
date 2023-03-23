@@ -1,6 +1,6 @@
 # RestServer NodeJS
 
-This repository is a template for a RestServer with NodeJS, Express and MongoDB.
+This repository is a template for a RestServer with NodeJS, Express and VtexIO.
 
 ## Installation
 
