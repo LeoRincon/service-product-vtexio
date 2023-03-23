@@ -7,7 +7,7 @@ const getProducts = (req: Request, res: Response) => {
 const postProducts = (req: Request, res: Response) => {
  const body = req.body;
  res.json({
-  msg: 'post API',
+  msg: 'post API changes',
   body,
  });
 };
