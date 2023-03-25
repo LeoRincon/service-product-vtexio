@@ -54,3 +54,9 @@ interface DateRange {
  from: string;
  to: string;
 }
+
+interface DataInventory {
+ unlimitedQuantity: boolean;
+ dateUtcOnBalanceSystem?: string;
+ quantity: number;
+}

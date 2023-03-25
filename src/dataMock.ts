@@ -1,6 +1,7 @@
-import { DataSkuFile, DataSkuPrice } from './type';
+import { DataSkuFile, DataSkuPrice, DataInventory } from './type';
 
 export const idSku: number = 10220583;
+export const wareHouseId: string = '1_1';
 
 export const fileDemo: DataSkuFile = {
  IsMain: false,
@@ -30,6 +31,45 @@ export const dataUser: DataSkuPrice = {
    value: 31.5,
    listPrice: 33,
    minQuantity: 2,
+  },
+ ],
+};
+
+export const dataInventory: DataInventory = {
+ unlimitedQuantity: false,
+ dateUtcOnBalanceSystem: 'null',
+ quantity: 10,
+};
+
+const wareHouseItg = {
+ skuId: '10220583',
+ balance: [
+  {
+   warehouseId: '1_1',
+   warehouseName: 'Estoque Principal',
+   totalQuantity: 0,
+   reservedQuantity: 0,
+   hasUnlimitedQuantity: false,
+   timeToRefill: null,
+   dateOfSupplyUtc: null,
+  },
+  {
+   warehouseId: 'impormedicalalamcen',
+   warehouseName: 'Impormedical',
+   totalQuantity: 0,
+   reservedQuantity: 0,
+   hasUnlimitedQuantity: false,
+   timeToRefill: null,
+   dateOfSupplyUtc: null,
+  },
+  {
+   warehouseId: '130824c',
+   warehouseName: 'Mazuren',
+   totalQuantity: 0,
+   reservedQuantity: 0,
+   hasUnlimitedQuantity: false,
+   timeToRefill: null,
+   dateOfSupplyUtc: null,
   },
  ],
 };
