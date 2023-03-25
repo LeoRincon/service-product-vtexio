@@ -1,35 +1,21 @@
-import axios from 'axios';
-
+import axios, { AxiosStatic } from 'axios';
+import { BASEURL, URLCATALOG } from '../utils/urls';
 class RequestsProduct {
- private BASEURL = `https://itglobers.vtexcommercestable.com.br`;
- private URLCATALOG = `/api/catalog/pvt`;
- private createProductCategoryBrand = `/product`;
- private createSKU = `/stockkeepingunit`;
- private HTTP = axios;
+ private urlCatalog: string;
+ private baseURL: string;
+ private createProductCategoryBrand: string;
+ private HTTP: AxiosStatic;
 
- constructor() {}
-
- getDemo(id: number) {
-  this.HTTP.get(`https://jsonplaceholder.typicode.com/posts/${id}/comments`)
-   .then((res) => {
-    console.log('>>>>>>>>>>', res.data);
-   })
-   .catch((err) => {
-    console.log(err);
-   });
+ constructor() {
+  this.baseURL = BASEURL;
+  this.urlCatalog = URLCATALOG;
+  this.createProductCategoryBrand = `/product`;
+  this.HTTP = axios;
  }
 
  postCreateProductCategoryBrand() {
   console.log(
-   `${this.BASEURL}${this.URLCATALOG}${this.createProductCategoryBrand}`
-  );
- }
- postCreateSKU() {
-  console.log(`${this.BASEURL}${this.URLCATALOG}${this.createSKU}`);
- }
- postCreateSKUFile(skuId: number) {
-  console.log(
-   `${this.BASEURL}${this.URLCATALOG}/stockkeepingunit/${skuId}/file`
+   `${this.baseURL}${this.urlCatalog}${this.createProductCategoryBrand}`
   );
  }
 }
