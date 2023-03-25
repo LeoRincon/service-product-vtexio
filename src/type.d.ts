@@ -34,3 +34,23 @@ export interface DataSkuFile {
  Text?: string | null;
  Url: string;
 }
+
+interface DataSkuPrice {
+ markup: number;
+ basePrice: number;
+ listPrice: number;
+ fixedPrices: FixedPrice[];
+}
+
+interface FixedPrice {
+ tradePolicyId: string;
+ value: number;
+ listPrice: number;
+ minQuantity: number;
+ dateRange?: DateRange;
+}
+
+interface DateRange {
+ from: string;
+ to: string;
+}
