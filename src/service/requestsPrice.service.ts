@@ -15,10 +15,6 @@ class RequestsPrice {
  }
 
  async putCreateUpdatePrice(skuId: number, dataUser: DataSkuPrice) {
-  console.log('putCreateUpdatePrice', skuId, dataUser);
-  console.log(
-   `${this.urlBsePricing}${this.accountName}/pricing/prices/${skuId}`
-  );
   try {
    const config = {
     method: Methods.PUT,
@@ -31,8 +27,8 @@ class RequestsPrice {
     data: dataUser,
    };
 
-   const { data } = await this.requestHTTP(config);
-   return data;
+   await this.requestHTTP(config);
+   return true;
   } catch (error) {
    console.log(error);
   }
