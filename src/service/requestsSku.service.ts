@@ -6,13 +6,13 @@ class RequestsSku {
  private urlCatalog: string;
  private baseURL: string;
  private createSKU: string;
- private requesHTTP: AxiosStatic;
+ private requestHTTP: AxiosStatic;
 
  constructor() {
   this.baseURL = BASEURL;
   this.urlCatalog = URLCATALOG;
   this.createSKU = `/stockkeepingunit`;
-  this.requesHTTP = axios;
+  this.requestHTTP = axios;
  }
 
  async postCreateSKU(dataUser: DataSku) {
@@ -27,7 +27,7 @@ class RequestsSku {
     },
     data: dataUser,
    };
-   const { data } = await this.requesHTTP(config);
+   const { data } = await this.requestHTTP(config);
    return data;
   } catch (error) {
    console.log(error);
@@ -46,7 +46,7 @@ class RequestsSku {
     },
     data: file,
    };
-   const { data } = await this.requesHTTP(config);
+   const { data } = await this.requestHTTP(config);
 
    return {
     skuId,
