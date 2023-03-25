@@ -10,6 +10,3 @@ const requestsProduct = new RequestsProduct();
 const requestsSku = new RequestsSku();
 
 server.listen();
-requestsProduct.postCreateProductCategoryBrand();
-requestsSku.postCreateSKU();
-requestsSku.postCreateSKUFile(3);
