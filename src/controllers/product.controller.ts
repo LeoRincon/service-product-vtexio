@@ -1,16 +1,27 @@
 import { Request, Response } from 'express';
 import RequestsSku from '../service/requestsSku.service';
 import RequestsPrice from '../service/requestsPrice.service';
-import { idSku, fileDemo, dataUser } from '../dataMock'; // TODO: remove this demo data
+import RequestsInventory from '../service/requestsInventory.service';
+
+import {
+ idSku,
+ fileDemo,
+ dataUser,
+ dataInventory,
+ wareHouseId,
+} from '../dataMock'; // TODO: remove this demo data
 
 const requestsSku = new RequestsSku();
 const requestsPrice = new RequestsPrice();
+const requestsInventory = new RequestsInventory();
 
 const getProducts = (req: Request, res: Response) => {
  res.json({
   msg: 'get API products',
  });
 };
+
+// ==================================================
 const postProducts = async (req: Request, res: Response) => {
  const body = req.body;
 
@@ -21,8 +32,13 @@ const postProducts = async (req: Request, res: Response) => {
 
  //  const data = await requestsSku.postCreateSKU(body);
  //  const file = await requestsSku.postCreateSKUFile(idSku, fileDemo);
+ //  const dataPrice = await requestsPrice.putCreateUpdatePrice(idSku, dataUser);
 
- const dataPrice = await requestsPrice.putCreateUpdatePrice(idSku, dataUser);
+ const Inventory = await requestsInventory.putAddInventory(
+  idSku,
+  dataInventory,
+  wareHouseId
+ );
 
  res.json({
   msg: 'SKU created',
@@ -30,6 +46,7 @@ const postProducts = async (req: Request, res: Response) => {
    body,
    //  file,
    price: 'Price created',
+   Inventory,
   },
  });
 };

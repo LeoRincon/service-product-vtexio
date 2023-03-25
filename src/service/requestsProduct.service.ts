@@ -4,13 +4,13 @@ class RequestsProduct {
  private urlCatalog: string;
  private baseURL: string;
  private createProductCategoryBrand: string;
- private HTTP: AxiosStatic;
+ private requestHTTP: AxiosStatic;
 
  constructor() {
   this.baseURL = BASEURL;
   this.urlCatalog = URLCATALOG;
   this.createProductCategoryBrand = `/product`;
-  this.HTTP = axios;
+  this.requestHTTP = axios;
  }
 
  postCreateProductCategoryBrand() {
