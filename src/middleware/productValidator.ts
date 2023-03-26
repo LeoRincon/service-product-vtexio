@@ -5,10 +5,13 @@ export function productValidate(ajvValidator: any) {
 		const valid = ajvValidator(req.body)
 		if (!valid) {
 			const errors = ajvValidator.errors
-			console.error(errors)
+			res.json({
+				status: 500,
+				msg: errors
+			})
 		} else {
 			console.log('json propertly formated')
+			next()
 		}
-		next()
 	}
 }
