@@ -1,62 +1,80 @@
+export interface Product {
+	Name: string
+	CategoryId?: 999
+	BrandId?: 9999
+	CategoryPath?: string
+	BrandName?: string
+	RefId: string
+	Title: string
+	LinkId: string
+	Description: string
+	ReleaseDate: string
+	IsVisible: boolean
+	IsActive: boolean
+	TaxCode: string
+	MetaTagDescription: string
+	ShowWithoutStock: boolean
+	Score: number
+}
 export interface DataSku {
- ProductId: number;
- IsActive: boolean;
- ActivateIfPossible: boolean;
- Name: string;
- RefId: string;
- Ean: string;
- PackagedHeight: number;
- PackagedLength: number;
- PackagedWidth: number;
- PackagedWeightKg: number;
- Height?: null | number;
- Length?: null | number;
- Width?: null | number;
- WeightKg?: null | number;
- CubicWeight: number;
- IsKit: boolean;
- CreationDate: string | null;
- RewardValue?: any;
- EstimatedDateArrival?: string | null;
- ManufacturerCode: string;
- CommercialConditionId: number;
- MeasurementUnit: string;
- UnitMultiplier: number;
- ModalType?: string | null;
- KitItensSellApart?: boolean;
- Videos?: string[];
+	ProductId: number
+	IsActive: boolean
+	ActivateIfPossible: boolean
+	Name: string
+	RefId: string
+	Ean: string
+	PackagedHeight: number
+	PackagedLength: number
+	PackagedWidth: number
+	PackagedWeightKg: number
+	Height?: null | number
+	Length?: null | number
+	Width?: null | number
+	WeightKg?: null | number
+	CubicWeight: number
+	IsKit: boolean
+	CreationDate: string | null
+	RewardValue?: any
+	EstimatedDateArrival?: string | null
+	ManufacturerCode: string
+	CommercialConditionId: number
+	MeasurementUnit: string
+	UnitMultiplier: number
+	ModalType?: string | null
+	KitItensSellApart?: boolean
+	Videos?: string[]
 }
 
 export interface DataSkuFile {
- IsMain: boolean;
- Label: string;
- Name: string;
- Text?: string | null;
- Url: string;
+	IsMain: boolean
+	Label: string
+	Name: string
+	Text?: string | null
+	Url: string
 }
 
 interface DataSkuPrice {
- markup: number;
- basePrice: number;
- listPrice: number;
- fixedPrices: FixedPrice[];
+	markup: number
+	basePrice: number
+	listPrice: number
+	fixedPrices: FixedPrice[]
 }
 
 interface FixedPrice {
- tradePolicyId: string;
- value: number;
- listPrice: number;
- minQuantity: number;
- dateRange?: DateRange;
+	tradePolicyId: string
+	value: number
+	listPrice: number
+	minQuantity: number
+	dateRange?: DateRange
 }
 
 interface DateRange {
- from: string;
- to: string;
+	from: string
+	to: string
 }
 
 interface DataInventory {
- unlimitedQuantity: boolean;
- dateUtcOnBalanceSystem?: string;
- quantity: number;
+	unlimitedQuantity: boolean
+	dateUtcOnBalanceSystem?: string
+	quantity: number
 }
