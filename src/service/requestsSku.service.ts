@@ -1,61 +1,119 @@
-import axios, { AxiosStatic } from 'axios';
-import { BASEURL, URLCATALOG } from '../utils/urls';
-import { DataSku, DataSkuFile } from '../type.d';
-import { Methods } from '../utils/methods';
+import axios, { AxiosStatic } from 'axios'
+import { BASEURL, URLCATALOG } from '../utils/urls'
+import { DataSku, DataSkuFile } from '../type.d'
+import { Methods } from '../utils/methods'
 class RequestsSku {
- private urlCatalog: string;
- private baseURL: string;
- private createSKU: string;
- private requestHTTP: AxiosStatic;
+	private urlCatalog: string
+	private baseURL: string
+	private createSKU: string
+	private requestHTTP: AxiosStatic
 
- constructor() {
-  this.baseURL = BASEURL;
-  this.urlCatalog = URLCATALOG;
-  this.createSKU = `/stockkeepingunit`;
-  this.requestHTTP = axios;
- }
+	constructor() {
+		this.baseURL = BASEURL
+		this.urlCatalog = URLCATALOG
+		this.createSKU = `/stockkeepingunit`
+		this.requestHTTP = axios
+	}
 
- async postCreateSKU(dataUser: DataSku) {
-  try {
-   const config = {
-    method: Methods.POST,
-    url: `${this.baseURL}${this.urlCatalog}${this.createSKU}`,
-    headers: {
-     Accept: 'application/json',
-     'Content-Type': 'application/json',
-     VtexIdclientAutCookie: process.env.VTEXIDCLIENTAUTCOOKIE,
-    },
-    data: dataUser,
-   };
-   const { data } = await this.requestHTTP(config);
-   return data;
-  } catch (error) {
-   console.log(error);
-  }
- }
+	async postCreateSKU(dataUser: DataSku) {
+		try {
+			const config = {
+				method: Methods.POST,
+				url: `${this.baseURL}${this.urlCatalog}${this.createSKU}`,
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+					VtexIdclientAutCookie: process.env.VTEXIDCLIENTAUTCOOKIE
+				},
+				data: dataUser
+			}
+			const { data } = await this.requestHTTP(config)
+			return data
+		} catch (error) {
+			console.log(error)
+		}
+	}
 
- async postCreateSKUFile(skuId: number, file: DataSkuFile) {
-  try {
-   const config = {
-    method: Methods.POST,
-    url: `${this.baseURL}${this.urlCatalog}/stockkeepingunit/${skuId}/file`,
-    headers: {
-     Accept: 'application/json',
-     'Content-Type': 'application/json',
-     VtexIdclientAutCookie: process.env.VTEXIDCLIENTAUTCOOKIE,
-    },
-    data: file,
-   };
-   const { data } = await this.requestHTTP(config);
+	async postCreateSKUFile(skuId: number, file: DataSkuFile) {
+		try {
+			const config = {
+				method: Methods.POST,
+				url: `${this.baseURL}${this.urlCatalog}/stockkeepingunit/${skuId}/file`,
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+					VtexIdclientAutCookie: process.env.VTEXIDCLIENTAUTCOOKIE
+				},
+				data: file
+			}
+			const { data } = await this.requestHTTP(config)
 
-   return {
-    skuId,
-    data,
-   };
-  } catch (error) {
-   console.log(error);
-  }
- }
+			return {
+				skuId,
+				data
+			}
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+	async getSKuById(skuId: number) {
+		try {
+			const config = {
+				method: Methods.GET,
+				url: `${this.baseURL}${this.urlCatalog}/stockkeepingunit/${skuId}`,
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+					VtexIdclientAutCookie: process.env.VTEXIDCLIENTAUTCOOKIE
+				}
+			}
+			const { data } = await this.requestHTTP(config)
+
+			return {
+				data,
+				skuExist: true
+			}
+		} catch (error: unknown) {
+			if (axios.isAxiosError(error)) {
+				return {
+					status: error.response?.status,
+					skuExist: false
+				}
+			} else {
+				console.error(error)
+			}
+		}
+	}
+
+	async getSKuByRefId(refId: string) {
+		try {
+			const config = {
+				method: Methods.GET,
+				url: `${this.baseURL}${this.urlCatalog}/stockkeepingunit?refId=${refId}`,
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+					VtexIdclientAutCookie: process.env.VTEXIDCLIENTAUTCOOKIE
+				}
+			}
+			const { data } = await this.requestHTTP(config)
+
+			return {
+				data,
+				skuExist: true
+			}
+		} catch (error: unknown) {
+			if (axios.isAxiosError(error)) {
+				return {
+					status: error.response?.status,
+					skuExist: false
+				}
+			} else {
+				console.error(error)
+			}
+		}
+	}
 }
 
-export default RequestsSku;
+export default RequestsSku

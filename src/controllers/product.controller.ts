@@ -70,10 +70,46 @@ const postProducts = async (req: Request, res: Response) => {
 		let product = await requestsProduct.postCreateProductCategoryBrand(
 			body.productInfo
 		)
-		res.json({
-			msg: 'Product Created',
-			productInfo: product?.data
-		})
+
+		console.info('Product Created succesfully')
+		console.info('processing SKU')
+
+		for (let sku of body.skus) {
+			sku.ProductId = product?.data.Id
+			let skuExist: boolean | undefined = false
+			if (sku.id) {
+				let skuData = await requestsSku.getSKuById(sku.id)
+				if (skuData?.skuExist) {
+					res.json({
+						status: 500,
+						msg: `the sku ${sku.id} already exist`
+					})
+					skuExist = true
+				}
+			}
+
+			if (!skuExist) {
+				let skuData = await requestsSku.getSKuByRefId(sku.RefId)
+				if (skuData?.skuExist) {
+					res.json({
+						status: 500,
+						msg: `the sku ref id ${sku.RefId} already exist`
+					})
+					skuExist = true
+				}
+			}
+
+			if (!skuExist) {
+				const skuData = await requestsSku.postCreateSKU(sku)
+				console.table(skuData)
+				console.log(`sku id: ${skuData.Id} created succesfully`)
+			}
+		}
+
+		// res.json({
+		// 	msg: 'Product Created'
+		// 	// productInfo: product?.data
+		// })
 	}
 
 	//  const data = await requestsSku.postCreateSKU(body);
