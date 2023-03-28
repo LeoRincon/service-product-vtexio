@@ -1,21 +1,11 @@
-import { Router } from 'express'
-import { productValidate } from '../middleware/productValidator'
-import { productSchema } from '../schema/product.schema'
+import { Router } from 'express';
+import { productValidate } from '../middleware/productValidator';
+import { productSchema } from '../schema/product.schema';
 
-import {
-	getProducts,
-	postProducts,
-	putProducts,
-	patchProducts,
-	deleteProducts
-} from '../controllers/product.controller'
+import { postProducts } from '../controllers/product.controller';
 
-const ProductRouter = Router()
+const ProductRouter = Router();
 
-ProductRouter.get('/', getProducts)
-ProductRouter.post('/', productValidate(productSchema), postProducts)
-ProductRouter.put('/:id', putProducts)
-ProductRouter.patch('/:id', patchProducts)
-ProductRouter.delete('/:id', deleteProducts)
+ProductRouter.post('/', productValidate(productSchema), postProducts);
 
-module.exports = ProductRouter
+module.exports = ProductRouter;

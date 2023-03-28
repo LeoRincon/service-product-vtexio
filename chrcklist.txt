@@ -1,0 +1,3 @@
+- change messages "noExiste warehouse does not exist, it was ommited, no stock setted \n" to => “WareHouseName: noExiste, warehouse does not exist, it was ommited, no stock setted"
+
+- Return the ID of created product.
