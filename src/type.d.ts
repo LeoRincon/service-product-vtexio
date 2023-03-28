@@ -57,7 +57,7 @@ interface DataSkuPrice {
 	markup: number
 	basePrice: number
 	listPrice: number
-	fixedPrices: FixedPrice[]
+	// fixedPrices: FixedPrice[]
 }
 
 interface FixedPrice {
@@ -77,4 +77,14 @@ interface DataInventory {
 	unlimitedQuantity: boolean
 	dateUtcOnBalanceSystem?: string
 	quantity: number
+}
+
+export interface SchemeError {
+	instancePath: string
+	schemaPath: string
+	keyword: string
+	params: {
+		type: strig
+	}
+	message: string
 }

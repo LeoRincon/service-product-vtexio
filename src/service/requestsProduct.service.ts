@@ -37,7 +37,9 @@ class RequestsProduct {
 		} catch (error: unknown) {
 			if (axios.isAxiosError(error)) {
 				return {
-					status: error.response?.status
+					status: error?.response?.status,
+					statusMsg: error?.response?.data,
+					data: error
 				}
 			} else {
 				console.error(error)

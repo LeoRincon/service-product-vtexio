@@ -157,6 +157,78 @@ const schema = {
 									type: 'string'
 								}
 							]
+						},
+						priceInfo: {
+							type: 'object',
+							oneOf: [
+								{
+									properties: {
+										costPrice: {
+											type: 'null'
+										},
+										markup: {
+											type: 'integer'
+										},
+										basePrice: {
+											type: 'integer'
+										}
+									}
+								},
+								{
+									properties: {
+										costPrice: {
+											type: 'integer'
+										},
+										markup: {
+											type: 'null'
+										},
+										basePrice: {
+											type: 'integer'
+										}
+									}
+								},
+								{
+									properties: {
+										costPrice: {
+											type: 'integer'
+										},
+										markup: {
+											type: 'integer'
+										},
+										basePrice: {
+											type: 'null'
+										}
+									}
+								}
+							]
+						},
+						skuImages: {
+							type: 'array',
+							minItems: 1,
+							maxItems: 10,
+							items: [
+								{
+									type: 'object',
+									properties: {
+										IsMain: {
+											type: 'boolean'
+										},
+										Label: {
+											type: 'string'
+										},
+										Name: {
+											type: 'string'
+										},
+										Text: {
+											type: 'string'
+										},
+										Url: {
+											type: 'string'
+										}
+									},
+									required: ['IsMain', 'Label', 'Name', 'Text', 'Url']
+								}
+							]
 						}
 					},
 					required: [
@@ -166,7 +238,9 @@ const schema = {
 						'PackagedLength',
 						'PackagedWidth',
 						'PackagedWeightKg',
-						'UnitMultiplier'
+						'UnitMultiplier',
+						'priceInfo',
+						'skuImages'
 					]
 				}
 			]

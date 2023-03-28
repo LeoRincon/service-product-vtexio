@@ -1,38 +1,49 @@
-import axios, { AxiosStatic } from 'axios';
-import { DataSkuPrice } from '../type';
-import { URLBASEPRICING, ACCOUNTNAME } from '../utils/urls';
-import { Methods } from '../utils/methods';
+import axios, { AxiosStatic } from 'axios'
+import { DataSkuPrice } from '../type'
+import { URLBASEPRICING, ACCOUNTNAME } from '../utils/urls'
+import { Methods } from '../utils/methods'
 
 class RequestsPrice {
- private urlBsePricing: string;
- private accountName: string;
- private requestHTTP: AxiosStatic;
+	private urlBsePricing: string
+	private accountName: string
+	private requestHTTP: AxiosStatic
 
- constructor() {
-  this.urlBsePricing = URLBASEPRICING;
-  this.accountName = ACCOUNTNAME;
-  this.requestHTTP = axios;
- }
+	constructor() {
+		this.urlBsePricing = URLBASEPRICING
+		this.accountName = ACCOUNTNAME
+		this.requestHTTP = axios
+	}
 
- async putCreateUpdatePrice(skuId: number, dataUser: DataSkuPrice) {
-  try {
-   const config = {
-    method: Methods.PUT,
-    url: `${this.urlBsePricing}${this.accountName}/pricing/prices/${skuId}`,
-    headers: {
-     Accept: 'application/json',
-     'Content-Type': 'application/json',
-     VtexIdclientAutCookie: process.env.VTEXIDCLIENTAUTCOOKIE,
-    },
-    data: dataUser,
-   };
+	async putCreateUpdatePrice(skuId: number, priceConfig: DataSkuPrice) {
+		try {
+			const config = {
+				method: Methods.PUT,
+				url: `${this.urlBsePricing}${this.accountName}/pricing/prices/${skuId}`,
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+					VtexIdclientAutCookie: process.env.VTEXIDCLIENTAUTCOOKIE
+				},
+				data: priceConfig
+			}
 
-   await this.requestHTTP(config);
-   return true;
-  } catch (error) {
-   console.log(error);
-  }
- }
+			await this.requestHTTP(config)
+			return {
+				priceSetted: true
+			}
+		} catch (error: unknown) {
+			if (axios.isAxiosError(error)) {
+				return {
+					priceSetted: false,
+					status: error?.response?.status,
+					statusMsg: error?.response?.data,
+					data: error
+				}
+			} else {
+				console.error(error)
+			}
+		}
+	}
 }
 
-export default RequestsPrice;
+export default RequestsPrice
