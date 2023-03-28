@@ -5,14 +5,7 @@ import RequestsInventory from '../service/requestsInventory.service'
 import RequestsCategory from '../service/requestsCategory.service'
 import RequestsBrand from '../service/requestsBrand.service'
 import RequestsProduct from '../service/requestsProduct.service'
-
-import {
-	idSku,
-	fileDemo,
-	dataUser,
-	dataInventory,
-	wareHouseId
-} from '../dataMock' // TODO: remove this demo data
+import { DataInventoryExtended } from '../type'
 
 const requestsProduct = new RequestsProduct()
 const requestsSku = new RequestsSku()
@@ -34,12 +27,9 @@ const postProducts = async (req: Request, res: Response) => {
 	let brandExist = false
 	let noCategoryValidation = false
 	let anErrorHappend = false
+	let warningMsg = ''
 
-	//TODO validate body data
-	// TODO: middleware to handle errors
-	// TODO: create product if not exist
-	// TODO: change this demo data to real data
-
+	//category and brand validation
 	if (body.productInfo.CategoryId) {
 		const category = await requestsCategory.validateCategory(
 			body.productInfo.CategoryId
@@ -74,6 +64,7 @@ const postProducts = async (req: Request, res: Response) => {
 
 		let productCreated = product?.status === 200 ? true : false
 
+		//product created validation
 		if (!productCreated) {
 			res.status(400).json({
 				msg: product?.statusMsg
@@ -83,6 +74,7 @@ const postProducts = async (req: Request, res: Response) => {
 			console.info('Product Created succesfully')
 			console.info('processing SKU')
 
+			//validation and creation of all skus
 			for (let sku of body.skus) {
 				sku.ProductId = product?.data.Id
 				let skuExist: boolean | undefined = false
@@ -98,6 +90,7 @@ const postProducts = async (req: Request, res: Response) => {
 				}
 
 				if (!skuExist) {
+					//sku creation
 					let skuData = await requestsSku.getSKuByRefId(sku.RefId)
 					if (skuData?.skuExist) {
 						res.status(400).json({
@@ -128,6 +121,7 @@ const postProducts = async (req: Request, res: Response) => {
 						anErrorHappend = true
 					}
 
+					//linking images with skus
 					for (let image of sku.skuImages) {
 						const file = await requestsSku.postCreateSKUFile(Id, image)
 						if (file?.isSetted) {
@@ -139,26 +133,44 @@ const postProducts = async (req: Request, res: Response) => {
 							anErrorHappend = true
 						}
 					}
+
+					//warehouses validation
+					let warehouses: boolean[] = await requestsInventory.validateWarehouse(
+						sku.inventoryInfo.map(
+							(data: DataInventoryExtended) => data.warehouseId
+						)
+					)
+					let { inventoryInfo } = sku
+
+					//adding stock to an especific sku
+					for (let i = 0; i < warehouses?.length; i++) {
+						let { inventory, warehouseId } = inventoryInfo[i]
+						if (warehouses[i]) {
+							const Inventory = await requestsInventory.putAddInventory(
+								Id,
+								inventory,
+								warehouseId
+							)
+							if (Inventory) {
+								console.log(
+									`stock on ${warehouseId} warehouse setted correctly`
+								)
+							}
+						} else {
+							warningMsg += `${warehouseId} warehouse does not exist, it was ommited, no stock setted \n`
+						}
+					}
 				}
 			}
 		}
 
 		if (!anErrorHappend) {
 			res.status(200).json({
-				msg: 'product created succesfully'
+				msg: 'product created succesfully',
+				warningMsg
 			})
 		}
 	}
-
-	//  const data = await requestsSku.postCreateSKU(body);
-	//  const file = await requestsSku.postCreateSKUFile(idSku, fileDemo);
-	//  const dataPrice = await requestsPrice.putCreateUpdatePrice(idSku, dataUser);
-
-	// const Inventory = await requestsInventory.putAddInventory(
-	// 	idSku,
-	// 	dataInventory,
-	// 	wareHouseId
-	// )
 }
 
 // ==================================================

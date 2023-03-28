@@ -68,7 +68,6 @@ const schema = {
 		skus: {
 			type: 'array',
 			minItems: 1,
-			maxItems: 10,
 			items: [
 				{
 					type: 'object',
@@ -151,7 +150,7 @@ const schema = {
 						Videos: {
 							type: 'array',
 							minItems: 0,
-							maxItems: 10,
+
 							items: [
 								{
 									type: 'string'
@@ -205,7 +204,6 @@ const schema = {
 						skuImages: {
 							type: 'array',
 							minItems: 1,
-							maxItems: 10,
 							items: [
 								{
 									type: 'object',
@@ -227,6 +225,39 @@ const schema = {
 										}
 									},
 									required: ['IsMain', 'Label', 'Name', 'Text', 'Url']
+								}
+							]
+						},
+						inventoryInfo: {
+							type: 'array',
+							items: [
+								{
+									type: 'object',
+									properties: {
+										inventory: {
+											type: 'object',
+											properties: {
+												unlimitedQuantity: {
+													type: 'boolean'
+												},
+												dateUtcOnBalanceSystem: {
+													type: 'null'
+												},
+												quantity: {
+													type: 'integer'
+												}
+											},
+											required: [
+												'unlimitedQuantity',
+												'dateUtcOnBalanceSystem',
+												'quantity'
+											]
+										},
+										warehouseId: {
+											type: 'string'
+										}
+									},
+									required: ['inventory', 'warehouseId']
 								}
 							]
 						}
