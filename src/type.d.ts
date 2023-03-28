@@ -79,6 +79,10 @@ interface DataInventory {
 	quantity: number
 }
 
+interface DataInventoryExtended extends DataInventory {
+	warehouseId: string
+}
+
 export interface SchemeError {
 	instancePath: string
 	schemaPath: string
@@ -87,4 +91,14 @@ export interface SchemeError {
 		type: strig
 	}
 	message: string
+}
+
+export interface Warehouse {
+	warehouseId: string
+	warehouseName: string
+	totalQuantity: number
+	reservedQuantity: number
+	hasUnlimitedQuantity: boolean
+	timeToRefill: string | null
+	dateOfSupplyUtc: string | null
 }

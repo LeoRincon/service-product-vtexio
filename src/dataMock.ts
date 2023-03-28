@@ -74,59 +74,10 @@ const wareHouseItg = {
 	]
 }
 
-const productPlusSku = {
-	productInfo: {
-		Name: 'prueba',
-		CategoryId: 999,
-		BrandId: 9999,
-		RefId: '',
-		Title: 'prueba',
-		LinkId: 'prueba',
-		Description: 'producto creado para la capacitacion backend',
-		ReleaseDate: '2023-03-020T00:00:00',
-		IsVisible: true,
-		IsActive: true,
-		TaxCode: '',
-		MetaTagDescription: 'producto de prueba',
-		ShowWithoutStock: true,
-		Score: 2
-	},
-	skus: [
-		{
-			ProductId: null,
-			IsActive: true,
-			ActivateIfPossible: true,
-			Name: 'sku1 prueba',
-			RefId: '125478',
-			Ean: '8949461894984',
-			PackagedHeight: 10,
-			PackagedLength: 10,
-			PackagedWidth: 10,
-			PackagedWeightKg: 10,
-			Height: 10,
-			Length: 10,
-			Width: 10,
-			WeightKg: 10,
-			CubicWeight: 0.1667,
-			IsKit: false,
-			CreationDate: '2023-03-020T00:00:00',
-			RewardValue: null,
-			EstimatedDateArrival: null,
-			ManufacturerCode: '123',
-			CommercialConditionId: 1,
-			MeasurementUnit: 'un',
-			UnitMultiplier: 1,
-			ModalType: null,
-			KitItensSellApart: false,
-			Videos: ['https://www.youtube.com/']
-		}
-	]
-}
-
-const dataWithoutInventory = {
+const fullData = {
 	productInfo: {
 		Name: 'pruebaSebas1',
-		CategoryId: 2056,
+		CategoryId: 2057,
 		BrandId: 123,
 		RefId: '',
 		Title: 'prueba',
@@ -179,14 +130,40 @@ const dataWithoutInventory = {
 					Label: 'aqua bottle',
 					Name: 'skuPrueba1-main',
 					Text: 'prueba1',
-					Url: 'https://itglobers.vteximg.com.br/arquivos/skuPrueba1-main.jpg'
+					Url: 'https://itglobers.vteximg.com.br/arquivos/sku-Prueba1-main.jpg'
 				},
 				{
 					IsMain: false,
 					Label: 'aqua bottle',
 					Name: 'skuPrueba1-alt',
 					Text: 'prueba1',
-					Url: 'https://itglobers.vteximg.com.br/arquivos/skuPrueba1-alt.jpg'
+					Url: 'https://itglobers.vteximg.com.br/arquivos/sku-Prueba1-alt.jpg'
+				}
+			],
+			inventoryInfo: [
+				{
+					inventory: {
+						unlimitedQuantity: false,
+						dateUtcOnBalanceSystem: null,
+						quantity: 30
+					},
+					warehouseId: '1_1'
+				},
+				{
+					inventory: {
+						unlimitedQuantity: false,
+						dateUtcOnBalanceSystem: null,
+						quantity: 30
+					},
+					warehouseId: 'impormedicalalamcen'
+				},
+				{
+					inventory: {
+						unlimitedQuantity: false,
+						dateUtcOnBalanceSystem: null,
+						quantity: 30
+					},
+					warehouseId: '130824c'
 				}
 			]
 		},
@@ -228,14 +205,32 @@ const dataWithoutInventory = {
 					Label: 'aqua bottle',
 					Name: 'skuPrueba2-main',
 					Text: 'prueba2',
-					Url: 'https://itglobers.vteximg.com.br/arquivos/skuPrueba2-main.jpg'
+					Url: 'https://itglobers.vteximg.com.br/arquivos/sku-Prueba2-main.jpg'
 				},
 				{
 					IsMain: false,
 					Label: 'aqua bottle',
 					Name: 'skuPrueba2-alt',
 					Text: 'prueba2',
-					Url: 'https://itglobers.vteximg.com.br/arquivos/skuPrueba2-alt.jpg'
+					Url: 'https://itglobers.vteximg.com.br/arquivos/sku-Prueba2-alt.jpg'
+				}
+			],
+			inventoryInfo: [
+				{
+					inventory: {
+						unlimitedQuantity: false,
+						dateUtcOnBalanceSystem: null,
+						quantity: 30
+					},
+					warehouseId: '1_1'
+				},
+				{
+					inventory: {
+						unlimitedQuantity: false,
+						dateUtcOnBalanceSystem: null,
+						quantity: 30
+					},
+					warehouseId: 'noExiste'
 				}
 			]
 		},
@@ -277,14 +272,24 @@ const dataWithoutInventory = {
 					Label: 'aqua bottle',
 					Name: 'skuPrueba3-main',
 					Text: 'prueba3',
-					Url: 'https://itglobers.vteximg.com.br/arquivos/skuPrueba3-main.jpg'
+					Url: 'https://itglobers.vteximg.com.br/arquivos/sku-Prueba3-main.jpg'
 				},
 				{
 					IsMain: false,
 					Label: 'aqua bottle',
 					Name: 'skuPrueba3-alt',
 					Text: 'prueba3',
-					Url: 'https://itglobers.vteximg.com.br/arquivos/skuPrueba3-alt.jpg'
+					Url: 'https://itglobers.vteximg.com.br/arquivos/sku-Prueba3-alt.jpg'
+				}
+			],
+			inventoryInfo: [
+				{
+					inventory: {
+						unlimitedQuantity: false,
+						dateUtcOnBalanceSystem: null,
+						quantity: 30
+					},
+					warehouseId: '1_1'
 				}
 			]
 		}
