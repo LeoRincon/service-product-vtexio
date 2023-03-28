@@ -33,6 +33,7 @@ const postProducts = async (req: Request, res: Response) => {
 	let categoryExist = false
 	let brandExist = false
 	let noCategoryValidation = false
+	let anErrorHappend = false
 
 	//TODO validate body data
 	// TODO: middleware to handle errors
@@ -58,8 +59,8 @@ const postProducts = async (req: Request, res: Response) => {
 			brandExist = true
 		}
 		if (!brandExist || !categoryExist) {
-			res.json({
-				msg: msg.concat(' does not exists in the estore, try another')
+			res.status(400).json({
+				msg: msg.concat(' does not exists in the store, try another')
 			})
 		}
 	} else {
@@ -71,45 +72,82 @@ const postProducts = async (req: Request, res: Response) => {
 			body.productInfo
 		)
 
-		console.info('Product Created succesfully')
-		console.info('processing SKU')
+		let productCreated = product?.status === 200 ? true : false
 
-		for (let sku of body.skus) {
-			sku.ProductId = product?.data.Id
-			let skuExist: boolean | undefined = false
-			if (sku.id) {
-				let skuData = await requestsSku.getSKuById(sku.id)
-				if (skuData?.skuExist) {
-					res.json({
-						status: 500,
-						msg: `the sku ${sku.id} already exist`
-					})
-					skuExist = true
+		if (!productCreated) {
+			res.status(400).json({
+				msg: product?.statusMsg
+			})
+			anErrorHappend = true
+		} else {
+			console.info('Product Created succesfully')
+			console.info('processing SKU')
+
+			for (let sku of body.skus) {
+				sku.ProductId = product?.data.Id
+				let skuExist: boolean | undefined = false
+				if (sku.id) {
+					let skuData = await requestsSku.getSKuById(sku.id)
+					if (skuData?.skuExist) {
+						res.status(400).json({
+							msg: `the sku ${sku.id} already exist`
+						})
+						skuExist = true
+						anErrorHappend = true
+					}
 				}
-			}
 
-			if (!skuExist) {
-				let skuData = await requestsSku.getSKuByRefId(sku.RefId)
-				if (skuData?.skuExist) {
-					res.json({
-						status: 500,
-						msg: `the sku ref id ${sku.RefId} already exist`
-					})
-					skuExist = true
+				if (!skuExist) {
+					let skuData = await requestsSku.getSKuByRefId(sku.RefId)
+					if (skuData?.skuExist) {
+						res.status(400).json({
+							msg: `the sku ref id ${sku.RefId} already exist`
+						})
+						skuExist = true
+						anErrorHappend = true
+					}
 				}
-			}
 
-			if (!skuExist) {
-				const skuData = await requestsSku.postCreateSKU(sku)
-				console.table(skuData)
-				console.log(`sku id: ${skuData.Id} created succesfully`)
+				if (!skuExist) {
+					const { Id } = await requestsSku.postCreateSKU(sku)
+					console.info(`sku id: ${Id} created succesfully`)
+
+					console.info('setting sku price')
+
+					const dataPrice = await requestsPrice.putCreateUpdatePrice(
+						Id,
+						sku.priceInfo
+					)
+
+					if (dataPrice?.priceSetted) {
+						console.info('price setted correctly')
+					} else {
+						res.status(400).json({
+							msg: `price was not set, try again later`
+						})
+						anErrorHappend = true
+					}
+
+					for (let image of sku.skuImages) {
+						const file = await requestsSku.postCreateSKUFile(Id, image)
+						if (file?.isSetted) {
+							console.info(`image ${file?.fileId} setted succesfully`)
+						} else {
+							res.status(400).json({
+								msg: `image called ${image.Name}: ${file?.statusMsg}`
+							})
+							anErrorHappend = true
+						}
+					}
+				}
 			}
 		}
 
-		// res.json({
-		// 	msg: 'Product Created'
-		// 	// productInfo: product?.data
-		// })
+		if (!anErrorHappend) {
+			res.status(200).json({
+				msg: 'product created succesfully'
+			})
+		}
 	}
 
 	//  const data = await requestsSku.postCreateSKU(body);
@@ -121,16 +159,6 @@ const postProducts = async (req: Request, res: Response) => {
 	// 	dataInventory,
 	// 	wareHouseId
 	// )
-
-	// res.json({
-	// 	msg: 'SKU created'
-	// 	// result: {
-	// 	// 	body,
-	// 	// 	//  file,
-	// 	// 	price: 'Price created',
-	// 	// 	Inventory
-	// 	// }
-	// })
 }
 
 // ==================================================

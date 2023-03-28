@@ -49,11 +49,20 @@ class RequestsSku {
 			const { data } = await this.requestHTTP(config)
 
 			return {
-				skuId,
-				data
+				isSetted: true,
+				fileId: data.Id
 			}
-		} catch (error) {
-			console.log(error)
+		} catch (error: unknown) {
+			if (axios.isAxiosError(error)) {
+				return {
+					isSetted: false,
+					status: error?.response?.status,
+					statusMsg: error?.response?.data,
+					data: error
+				}
+			} else {
+				console.error(error)
+			}
 		}
 	}
 
