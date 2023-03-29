@@ -81,6 +81,7 @@ interface DataInventory {
 
 interface DataInventoryExtended extends DataInventory {
 	warehouseId: string
+	isValid?: boolean
 }
 
 export interface SchemeError {
