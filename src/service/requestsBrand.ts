@@ -1,45 +1,47 @@
-import axios, { AxiosError, AxiosStatic } from 'axios'
+import axios, { AxiosStatic } from 'axios'
 import { BASEURL, URLCATALOG } from '../utils/urls'
 import { Methods } from '../utils/methods'
-import { request } from 'http'
 
 class RequestsCategory {
 	private urlCatalog: string
 	private baseURL: string
-	private verifyCategory: string
+	private verifyBrand: string
 	private requestHTTP: AxiosStatic
 
 	constructor() {
 		this.baseURL = BASEURL
 		this.urlCatalog = URLCATALOG
-		this.verifyCategory = `/category`
+		this.verifyBrand = `/brand`
 		this.requestHTTP = axios
 	}
 
-	async validateCategory(categoryId: number) {
+	async validateBrand(brandId: number) {
 		try {
 			const config = {
 				method: Methods.GET,
-				url: `${this.baseURL}${this.urlCatalog}${this.verifyCategory}/${categoryId}`,
+				url: `${this.baseURL}${this.urlCatalog}${this.verifyBrand}/${brandId}`,
 				headers: {
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
 					VtexIdclientAutCookie: process.env.VTEXIDCLIENTAUTCOOKIE
 				}
 			}
-			const { data } = await this.requestHTTP(config)
+			await this.requestHTTP(config)
 			return {
-				data,
-				categoryExist: true
+				status: 200,
+				brandExist: true
 			}
 		} catch (error: unknown) {
 			if (axios.isAxiosError(error)) {
 				return {
 					status: error.response?.status,
-					categoryExist: false
+					brandExist: false
 				}
 			} else {
-				console.error(error)
+				return {
+					status: 400,
+					brandExist: false
+				}
 			}
 		}
 	}

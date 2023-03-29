@@ -40,7 +40,11 @@ class RequestsPrice {
 					data: error
 				}
 			} else {
-				console.error(error)
+				return {
+					priceSetted: false,
+					status: 400,
+					statusMsg: error
+				}
 			}
 		}
 	}

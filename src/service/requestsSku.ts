@@ -1,6 +1,6 @@
 import axios, { AxiosStatic } from 'axios'
 import { BASEURL, URLCATALOG } from '../utils/urls'
-import { DataSku, DataSkuFile } from '../type.d'
+import { DataSku, DataSkuFile } from '../type'
 import { Methods } from '../utils/methods'
 class RequestsSku {
 	private urlCatalog: string
@@ -28,9 +28,22 @@ class RequestsSku {
 				data: dataUser
 			}
 			const { data } = await this.requestHTTP(config)
-			return data
-		} catch (error) {
-			console.log(error)
+			return {
+				status: 200,
+				Id: data.Id
+			}
+		} catch (error: unknown) {
+			if (axios.isAxiosError(error)) {
+				return {
+					status: error?.response?.status,
+					statusMsg: error?.response?.data
+				}
+			} else {
+				return {
+					status: 400,
+					statusMsg: error
+				}
+			}
 		}
 	}
 
@@ -61,7 +74,11 @@ class RequestsSku {
 					data: error
 				}
 			} else {
-				console.error(error)
+				return {
+					isSetted: false,
+					status: 400,
+					statusMsg: error
+				}
 			}
 		}
 	}
