@@ -1,38 +1,15 @@
-import { Request, Response } from 'express';
-const getProducts = (req: Request, res: Response) => {
- res.json({
-  msg: 'get API products',
- });
-};
-const postProducts = (req: Request, res: Response) => {
- const body = req.body;
- res.json({
-  msg: 'post API changes',
-  body,
- });
-};
-const putProducts = (req: Request, res: Response) => {
- const id = req.params.id;
- res.json({
-  msg: 'put API',
-  id,
- });
-};
-const patchProducts = (req: Request, res: Response) => {
- res.json({
-  msg: 'patch API',
- });
-};
-const deleteProducts = (req: Request, res: Response) => {
- res.json({
-  msg: 'delete API',
- });
-};
+import { Request, Response } from 'express'
 
-export {
- getProducts,
- postProducts,
- putProducts,
- patchProducts,
- deleteProducts,
-};
+// ==================================================
+const postProducts = async (req: any, res: any) => {
+	const { simplifiedSkus, productId, warningMsg } = req
+	res.status(200).json({
+		msg: `product Created Correctly`,
+		warningMsg,
+		productId,
+		skusIds: simplifiedSkus
+	})
+	console.info('[postProduct]: product creation process OK')
+}
+
+export { postProducts }
